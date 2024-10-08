@@ -5,6 +5,7 @@ import styled, { DefaultTheme } from 'styled-components/native'
 interface TypographyProps extends TextProps {
   size: keyof DefaultTheme['fontSizes']
   bold?: boolean
+  center?: boolean
   color?: keyof DefaultTheme['colors']
 }
 
@@ -15,6 +16,8 @@ const StyledText = styled.Text<TypographyProps>`
   font-size: ${({ theme, size }) => theme.fontSizes[size]}px;
 
   color: ${({ theme, color }) => theme.colors[color ?? 'base700']};
+
+  text-align: ${({ center }) => (center ? 'center' : 'left')};
 `
 
 export const Typography = ({

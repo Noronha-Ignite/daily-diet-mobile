@@ -1,9 +1,13 @@
 import { ArrowUpRight } from 'phosphor-react-native'
 import styled from 'styled-components/native'
 
-export const Container = styled.TouchableOpacity`
-  background-color: ${({ theme }) => theme.colors.success300};
+export const Container = styled.TouchableOpacity<{
+  colorScheme: 'success' | 'danger'
+}>`
+  background-color: ${({ theme, colorScheme }) =>
+    theme.colors[`${colorScheme}300`]};
 
+  flex-direction: column;
   justify-content: center;
   align-items: center;
 

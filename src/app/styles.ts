@@ -1,5 +1,9 @@
 import styled from 'styled-components/native'
 
+export const Container = styled.View`
+  padding: 0 16px;
+`
+
 export const HomeHeader = styled.View`
   flex-direction: row;
   justify-content: space-between;

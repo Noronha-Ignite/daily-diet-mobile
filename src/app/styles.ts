@@ -11,7 +11,7 @@ export const HomeHeader = styled.View`
   gap: 16px;
 `
 
-export const AddMealWrapper = styled.View`
+export const MealWrapper = styled.View`
   gap: 8px;
 
   margin-top: 40px;

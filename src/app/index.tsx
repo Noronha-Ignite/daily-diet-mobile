@@ -6,6 +6,7 @@ import { Typography } from '../components/Typography'
 import { Button } from '../components/Button'
 import { PercentageCard } from './components/PercentageCard'
 import { SafeAreaView } from 'react-native'
+import { MealList } from './components/MealList'
 
 export default function Index() {
   return (
@@ -21,13 +22,15 @@ export default function Index() {
           <PercentageCard shouldOpenMetrics />
         </S.PercentageCardWrapper>
 
-        <S.AddMealWrapper>
+        <S.MealWrapper>
           <Typography color="base700" size="md">
             Refeições
           </Typography>
 
           <Button Icon={Plus}>Adicionar refeição</Button>
-        </S.AddMealWrapper>
+
+          <MealList />
+        </S.MealWrapper>
       </S.Container>
     </SafeAreaView>
   )

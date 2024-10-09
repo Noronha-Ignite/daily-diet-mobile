@@ -3,3 +3,7 @@ type Prettify<T> = {
 }
 
 type Optional<T, K extends keyof T> = Prettify<Omit<T, K> & Pick<Partial<T>, K>>
+
+type WithId<T extends Record<string, unknown>> = T & {
+  id: string
+}

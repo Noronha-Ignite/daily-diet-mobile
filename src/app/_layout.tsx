@@ -6,6 +6,7 @@ import { Stack } from 'expo-router'
 import React from 'react'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 import { MetricsContextProvider } from '../contexts/useMetrics'
+import { MealsContextProvider } from '../contexts/useMeals'
 
 export default function RootLayout() {
   const fontsLoaded = useAppFonts()
@@ -23,16 +24,18 @@ export default function RootLayout() {
   return (
     <SafeAreaProvider>
       <ThemeProvider theme={theme}>
-        <MetricsContextProvider>
-          <GlobalWrapper>
-            <Stack
-              screenOptions={{
-                headerShown: false,
-                animation: 'slide_from_bottom',
-              }}
-            />
-          </GlobalWrapper>
-        </MetricsContextProvider>
+        <MealsContextProvider>
+          <MetricsContextProvider>
+            <GlobalWrapper>
+              <Stack
+                screenOptions={{
+                  headerShown: false,
+                  animation: 'slide_from_bottom',
+                }}
+              />
+            </GlobalWrapper>
+          </MetricsContextProvider>
+        </MealsContextProvider>
       </ThemeProvider>
     </SafeAreaProvider>
   )

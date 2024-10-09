@@ -1,5 +1,6 @@
 import { createContext, PropsWithChildren, useContext } from 'react'
 import { Meal } from '@/src/models/Meal'
+import { useMeals } from './useMeals'
 
 interface MetricsContextProps {
   withinDietPercentage: number
@@ -30,14 +31,7 @@ const getHighestSequenceOfWithinDiet = (meals: Meal[]) => {
 }
 
 export const MetricsContextProvider = ({ children }: PropsWithChildren) => {
-  const meals: Meal[] = [
-    { withinDiet: true },
-    { withinDiet: true },
-    { withinDiet: true },
-    { withinDiet: false },
-    { withinDiet: true },
-    { withinDiet: false },
-  ]
+  const { meals } = useMeals()
 
   const countWithinDiet = meals.reduce((count, { withinDiet }) => {
     if (withinDiet) {
@@ -51,7 +45,7 @@ export const MetricsContextProvider = ({ children }: PropsWithChildren) => {
 
   const highestSequenceWithinDiet = getHighestSequenceOfWithinDiet(meals)
   const countMealsRegistered = meals.length
-  const withinDietPercentage = countWithinDiet / meals.length
+  const withinDietPercentage = meals.length ? countWithinDiet / meals.length : 1
   const isAboveDietPercentage =
     withinDietPercentage >= DESIRED_WITHIN_DIET_PERCENTAGE
 

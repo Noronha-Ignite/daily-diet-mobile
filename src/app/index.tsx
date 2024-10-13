@@ -7,8 +7,15 @@ import { Button } from '../components/Button'
 import { PercentageCard } from './components/PercentageCard'
 import { SafeAreaView } from 'react-native'
 import { MealList } from './components/MealList'
+import { useRouter } from 'expo-router'
 
 export default function Index() {
+  const router = useRouter()
+
+  const handleNewMeal = () => {
+    router.push('/NewMeal')
+  }
+
   return (
     <SafeAreaView>
       <S.Container>
@@ -27,7 +34,9 @@ export default function Index() {
             Refeições
           </Typography>
 
-          <Button Icon={Plus}>Adicionar refeição</Button>
+          <Button Icon={Plus} onPress={handleNewMeal}>
+            Nova refeição
+          </Button>
 
           <MealList />
         </S.MealWrapper>

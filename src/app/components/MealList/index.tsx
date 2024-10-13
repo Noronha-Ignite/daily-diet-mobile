@@ -4,7 +4,6 @@ import { FlatList } from 'react-native'
 import * as S from './styles'
 import { Typography } from '@/src/components/Typography'
 import React, { useMemo } from 'react'
-import { Meal } from '@/src/models/Meal'
 import { Hamburger } from 'phosphor-react-native'
 import { useTheme } from 'styled-components/native'
 
@@ -16,7 +15,7 @@ export const MealList = () => {
   const { meals } = useMeals()
 
   const mealsGroupedByDay = useMemo(() => {
-    const groups = new Map<string, Array<WithId<Meal>>>()
+    const groups = new Map<string, Array<(typeof meals)[0]>>()
 
     for (const meal of meals) {
       const eatenDate = new Date(meal.eatenAt)

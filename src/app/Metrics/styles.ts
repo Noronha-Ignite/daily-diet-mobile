@@ -1,31 +1,6 @@
 import { Typography } from '@/src/components/Typography'
 import styled from 'styled-components/native'
 
-export const Container = styled.View<{
-  colorScheme: 'success' | 'danger'
-}>`
-  background-color: ${({ colorScheme, theme }) =>
-    theme.colors[`${colorScheme}300`]};
-  flex: 1;
-
-  padding-top: 16px;
-`
-
-export const Content = styled.View`
-  flex: 1;
-
-  background-color: ${({ theme }) => theme.colors.base100};
-
-  border-top-left-radius: 20px;
-  border-top-right-radius: 20px;
-
-  padding: 32px 24px;
-
-  align-items: center;
-
-  gap: 12px;
-`
-
 export const Title = styled(Typography)`
   margin-bottom: 12px;
 `

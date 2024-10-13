@@ -1,5 +1,5 @@
 import { PropsWithChildren, useState } from 'react'
-import { TouchableWithoutFeedback } from 'react-native'
+import { TouchableOpacityProps, TouchableWithoutFeedback } from 'react-native'
 
 import { IconProps } from 'phosphor-react-native'
 import styled, { useTheme } from 'styled-components/native'
@@ -7,7 +7,7 @@ import { Typography } from './Typography'
 
 type ButtonVariant = 'default' | 'border'
 
-interface ButtonProps {
+interface ButtonProps extends TouchableOpacityProps {
   Icon?: (props: IconProps) => JSX.Element
   variant?: ButtonVariant
 }
@@ -48,6 +48,7 @@ export const Button = ({
   Icon,
   variant = 'default',
   children,
+  ...props
 }: PropsWithChildren<ButtonProps>) => {
   const theme = useTheme()
   const [active, setActive] = useState(false)
@@ -56,6 +57,7 @@ export const Button = ({
 
   return (
     <TouchableWithoutFeedback
+      {...props}
       onPressIn={() => setActive(true)}
       onPressOut={() => setActive(false)}
     >

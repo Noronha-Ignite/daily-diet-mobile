@@ -1,4 +1,4 @@
-import { PropsWithChildren } from 'react'
+import React, { PropsWithChildren } from 'react'
 import { TextProps } from 'react-native'
 import styled, { DefaultTheme } from 'styled-components/native'
 
@@ -8,6 +8,8 @@ interface TypographyProps extends TextProps {
   center?: boolean
   color?: keyof DefaultTheme['colors']
 }
+
+const StyledTextBox = styled.View``
 
 const StyledText = styled.Text<TypographyProps>`
   font-family: ${({ theme, bold }) =>
@@ -26,8 +28,10 @@ export const Typography = ({
   ...props
 }: PropsWithChildren<Optional<TypographyProps, 'size'>>) => {
   return (
-    <StyledText size={size} {...props}>
-      {children}
-    </StyledText>
+    <StyledTextBox>
+      <StyledText size={size} {...props}>
+        {children}
+      </StyledText>
+    </StyledTextBox>
   )
 }

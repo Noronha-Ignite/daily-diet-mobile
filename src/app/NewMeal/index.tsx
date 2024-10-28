@@ -1,10 +1,12 @@
 import { WithHeader } from '@/src/components/Header'
 import { Typography } from '@/src/components/Typography'
 
+import { zodResolver } from '@hookform/resolvers/zod'
+
 import { useForm } from 'react-hook-form'
 
 import * as S from './styles'
-import { NewMealFormType } from './schema'
+import { newMealFormSchema, NewMealFormType } from './schema'
 import { Input } from '@/src/components/Input'
 import { Button } from '@/src/components/Button'
 import { Select } from '@/src/components/Select'
@@ -16,7 +18,22 @@ const NewMealHeader = () => (
 )
 
 function NewMeal() {
-  const { control } = useForm<NewMealFormType>()
+  const {
+    control,
+    handleSubmit,
+    formState: { isValid },
+  } = useForm<NewMealFormType>({
+    resolver: zodResolver(newMealFormSchema),
+  })
+
+  const onSubmit = (data: NewMealFormType) => {
+    const payload = {
+      ...data,
+      isWithinDiet: data.isWithinDiet === 'YES',
+    }
+
+    console.log(payload)
+  }
 
   return (
     <S.Container>
@@ -36,12 +53,14 @@ function NewMeal() {
         </S.DateWrapper>
 
         <Select
+          control={control}
+          name="isWithinDiet"
           label="Está dentro da dieta?"
           options={[
-            { label: 'Sim', value: 'true', colorScheme: 'success' },
+            { label: 'Sim', value: 'YES', colorScheme: 'success' },
             {
               label: 'Não',
-              value: 'false',
+              value: 'NO',
               colorScheme: 'danger',
             },
           ]}
@@ -49,7 +68,9 @@ function NewMeal() {
       </S.FormInputs>
 
       <S.ButtonWrapper>
-        <Button>Cadastrar refeição</Button>
+        <Button disabled={!isValid} onPress={handleSubmit(onSubmit)}>
+          Cadastrar refeição
+        </Button>
       </S.ButtonWrapper>
     </S.Container>
   )

@@ -1,10 +1,11 @@
 import { Circle } from 'phosphor-react-native'
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 
 import { useTheme } from 'styled-components/native'
 import { Typography } from '../Typography'
 
 import * as S from './styles'
+import { Control, FieldValues, Path, useController } from 'react-hook-form'
 
 type ColorScheme = 'success' | 'danger'
 
@@ -14,21 +15,26 @@ interface Option {
   colorScheme?: ColorScheme
 }
 
-interface SelectProps {
+interface SelectProps<T extends FieldValues> {
   options: Option[]
-  onOptionChange?: (option: string) => void
   label?: string
+
+  control: Control<T>
+  name: Path<T>
 }
 
-export const Select = ({ options, onOptionChange, label }: SelectProps) => {
+export const Select = <T extends FieldValues>({
+  options,
+  label,
+  control,
+  name,
+}: SelectProps<T>) => {
   const theme = useTheme()
-  const [selectedOption, setSelectedOption] = useState<string>()
 
-  useEffect(() => {
-    if (selectedOption) {
-      onOptionChange?.(selectedOption)
-    }
-  }, [selectedOption, onOptionChange])
+  const { field } = useController({
+    control,
+    name,
+  })
 
   return (
     <S.SelectContainer>
@@ -43,8 +49,8 @@ export const Select = ({ options, onOptionChange, label }: SelectProps) => {
           <S.Option
             key={value}
             colorScheme={colorScheme}
-            active={value === selectedOption}
-            onPress={() => setSelectedOption(value)}
+            active={value === field.value}
+            onPress={() => field.onChange(value)}
             activeOpacity={0.7}
           >
             <Circle

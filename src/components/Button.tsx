@@ -10,11 +10,14 @@ type ButtonVariant = 'default' | 'border'
 interface ButtonProps extends TouchableOpacityProps {
   Icon?: (props: IconProps) => JSX.Element
   variant?: ButtonVariant
+
+  fullWidth?: boolean
 }
 
 const StyledButtonContainer = styled.View<{
   variant: ButtonVariant
   active?: boolean
+  fullWidth?: boolean
 }>`
   background-color: ${({ variant, theme, active }) => {
     if (variant === 'border') {
@@ -40,7 +43,7 @@ const StyledButtonContainer = styled.View<{
   align-items: center;
 
   border-radius: 6px;
-  width: 100%;
+  width: ${({ fullWidth }) => (fullWidth ? ': 100%' : 'initial')};
   justify-content: center;
 `
 

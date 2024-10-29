@@ -10,6 +10,8 @@ import { newMealFormSchema, NewMealFormType } from './schema'
 import { Input } from '@/src/components/Input'
 import { Button } from '@/src/components/Button'
 import { Select } from '@/src/components/Select'
+import { useRouter } from 'expo-router'
+import { useMeals } from '@/src/contexts/useMeals'
 
 const NewMealHeader = () => (
   <Typography bold color="base700" size="lg">
@@ -18,6 +20,9 @@ const NewMealHeader = () => (
 )
 
 function NewMeal() {
+  const router = useRouter()
+  const { addMeal } = useMeals()
+
   const {
     control,
     handleSubmit,
@@ -27,12 +32,26 @@ function NewMeal() {
   })
 
   const onSubmit = (data: NewMealFormType) => {
-    const payload = {
-      ...data,
-      isWithinDiet: data.isWithinDiet === 'YES',
-    }
+    const [day, month, year] = data.date
+      .split('/')
+      .map((value) => Number(value))
+    const [hours, minutes] = data.dateTime
+      .split(':')
+      .map((value) => Number(value))
 
-    console.log(payload)
+    const mealDate = new Date(year, month, day, hours, minutes)
+
+    addMeal({
+      name: data.name,
+      description: data.description ?? '',
+      eatenAt: mealDate.toString(),
+      withinDiet: data.isWithinDiet === 'YES',
+    })
+
+    router.replace('/NewMeal/NewMealSuccess')
+    router.setParams({
+      isWithinDiet: data.isWithinDiet,
+    })
   }
 
   return (

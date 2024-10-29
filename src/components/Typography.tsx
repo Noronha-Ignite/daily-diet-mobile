@@ -9,8 +9,6 @@ interface TypographyProps extends TextProps {
   color?: keyof DefaultTheme['colors']
 }
 
-const StyledTextBox = styled.View``
-
 const StyledText = styled.Text<TypographyProps>`
   font-family: ${({ theme, bold }) =>
     bold ? theme.fonts.bold : theme.fonts.regular};
@@ -28,10 +26,8 @@ export const Typography = ({
   ...props
 }: PropsWithChildren<Optional<TypographyProps, 'size'>>) => {
   return (
-    <StyledTextBox>
-      <StyledText size={size} {...props}>
-        {children}
-      </StyledText>
-    </StyledTextBox>
+    <StyledText size={size} {...props}>
+      {children}
+    </StyledText>
   )
 }

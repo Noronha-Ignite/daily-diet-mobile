@@ -6,9 +6,10 @@ import { formatDate, formatTime } from '@/src/utils/format'
 import { Button } from '@/src/components/Button'
 import { PencilSimpleLine, Trash } from 'phosphor-react-native'
 import { WithHeader } from '@/src/components/Header'
-import React from 'react'
+import React, { useState } from 'react'
 import { useMeals } from '@/src/contexts/useMeals'
 import { Meal } from '@/src/models/Meal'
+import { ConfirmationDialog } from '@/src/components/ConfirmationDialog'
 
 interface MealDetailsComponentProps {
   meal: WithId<Meal>
@@ -16,6 +17,9 @@ interface MealDetailsComponentProps {
 
 function MealDetailsComponent({ meal }: MealDetailsComponentProps) {
   const router = useRouter()
+  const { removeMeal } = useMeals()
+
+  const [isDeletingDialogOpen, setIsDeletingDialogOpen] = useState(false)
 
   const eatenAtDateString = formatDate(new Date(meal.eatenAt))
   const eatenAtTimeString = formatTime(new Date(meal.eatenAt))
@@ -55,9 +59,25 @@ function MealDetailsComponent({ meal }: MealDetailsComponentProps) {
         >
           Editar refeição
         </Button>
-        <Button Icon={Trash} variant="border">
+        <Button
+          Icon={Trash}
+          variant="border"
+          onPress={() => setIsDeletingDialogOpen(true)}
+        >
           Excluir refeição
         </Button>
+
+        <ConfirmationDialog
+          message="Deseja realmente excluir o registro da refeição?"
+          confirmText="Sim, excluir"
+          visible={isDeletingDialogOpen}
+          onCancel={() => setIsDeletingDialogOpen(false)}
+          onConfirm={() => {
+            removeMeal(meal.id)
+            setIsDeletingDialogOpen(false)
+            router.back()
+          }}
+        />
       </S.Actions>
     </S.Container>
   )

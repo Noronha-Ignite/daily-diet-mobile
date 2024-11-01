@@ -1,5 +1,5 @@
 import { Typography } from '@/src/components/Typography'
-import { Redirect, useLocalSearchParams } from 'expo-router'
+import { Redirect, useLocalSearchParams, useRouter } from 'expo-router'
 
 import * as S from './styles'
 import { formatDate, formatTime } from '@/src/utils/format'
@@ -15,6 +15,8 @@ interface MealDetailsComponentProps {
 }
 
 function MealDetailsComponent({ meal }: MealDetailsComponentProps) {
+  const router = useRouter()
+
   const eatenAtDateString = formatDate(new Date(meal.eatenAt))
   const eatenAtTimeString = formatTime(new Date(meal.eatenAt))
 
@@ -47,7 +49,12 @@ function MealDetailsComponent({ meal }: MealDetailsComponentProps) {
       </S.Content>
 
       <S.Actions>
-        <Button Icon={PencilSimpleLine}>Editar refeição</Button>
+        <Button
+          Icon={PencilSimpleLine}
+          onPress={() => router.push(`/MealDetails/EditMeal/${meal.id}`)}
+        >
+          Editar refeição
+        </Button>
         <Button Icon={Trash} variant="border">
           Excluir refeição
         </Button>

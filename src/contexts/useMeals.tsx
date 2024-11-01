@@ -11,9 +11,9 @@ import { usePersistedState } from '../hooks/usePersistedState'
 interface MealsContextProps {
   meals: WithId<Meal>[]
 
-  addMeal(meal: Meal): Promise<void>
-  removeMeal(id: string): Promise<void>
-  editMeal(id: string, newMeal: Meal): Promise<void>
+  addMeal(meal: Meal): void
+  removeMeal(id: string): void
+  editMeal(id: string, newMeal: Meal): void
 
   getMeal: (id: string) => WithId<Meal> | undefined
 }
@@ -26,7 +26,7 @@ export const MealsContextProvider = ({ children }: PropsWithChildren) => {
     [],
   )
 
-  const addMeal = async (meal: Meal) => {
+  const addMeal = (meal: Meal) => {
     const id = generateUUID()
 
     const sortedMeals = sortMealsByDate([...meals, { ...meal, id }])
@@ -34,13 +34,13 @@ export const MealsContextProvider = ({ children }: PropsWithChildren) => {
     setMeals(sortedMeals)
   }
 
-  const removeMeal = async (id: string) => {
+  const removeMeal = (id: string) => {
     const sortedMeals = sortMealsByDate(meals.filter((meal) => meal.id !== id))
 
     setMeals(sortedMeals)
   }
 
-  const editMeal = async (id: string, newMeal: Meal) => {
+  const editMeal = (id: string, newMeal: Meal) => {
     const sortedMeals = sortMealsByDate(
       meals.map((meal) => {
         if (meal.id === id) {

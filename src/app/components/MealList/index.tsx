@@ -6,11 +6,13 @@ import { Typography } from '@/src/components/Typography'
 import React, { useMemo } from 'react'
 import { Hamburger } from 'phosphor-react-native'
 import { useTheme } from 'styled-components/native'
+import { useRouter } from 'expo-router'
 
 const padNumberWithZero = (number: number, length: number) =>
   number.toString().padStart(length, '0')
 
 export const MealList = () => {
+  const router = useRouter()
   const { colors } = useTheme()
   const { meals } = useMeals()
 
@@ -57,8 +59,16 @@ export const MealList = () => {
             {meals.map((item) => {
               const eatenDate = new Date(item.eatenAt)
 
+              const handleGoToDetails = () => {
+                router.push(`/MealDetails/${item.id}`)
+              }
+
               return (
-                <S.MealListItem activeOpacity={0.7} key={item.id}>
+                <S.MealListItem
+                  onPress={handleGoToDetails}
+                  activeOpacity={0.7}
+                  key={item.id}
+                >
                   <Typography>
                     {padNumberWithZero(eatenDate.getHours(), 2)}:
                     {padNumberWithZero(eatenDate.getMinutes(), 2)}

@@ -14,6 +14,8 @@ interface MealsContextProps {
   addMeal(meal: Meal): Promise<void>
   removeMeal(id: string): Promise<void>
   editMeal(id: string, newMeal: Meal): Promise<void>
+
+  getMeal: (id: string) => WithId<Meal> | undefined
 }
 
 const MealsContext = createContext({} as MealsContextProps)
@@ -52,6 +54,13 @@ export const MealsContextProvider = ({ children }: PropsWithChildren) => {
     setMeals(sortedMeals)
   }
 
+  const getMeal = useCallback(
+    (id: string) => {
+      return meals.find((meal) => meal.id === id)
+    },
+    [meals],
+  )
+
   const sortMealsByDate = useCallback((meals: WithId<Meal>[]) => {
     const sortedMeals = meals
       .map((meal) => ({
@@ -75,6 +84,8 @@ export const MealsContextProvider = ({ children }: PropsWithChildren) => {
         addMeal,
         removeMeal,
         editMeal,
+
+        getMeal,
       }}
     >
       {children}

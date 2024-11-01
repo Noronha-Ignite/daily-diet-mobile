@@ -20,14 +20,9 @@ export const usePersistedState = <T = unknown>(
     AsyncStorage.getItem(key).then((value) => {
       if (value) {
         setState(JSON.parse(value ?? ''))
-        return
-      }
-
-      if (initialValue) {
-        handleSetState(initialValue)
       }
     })
-  }, [key, handleSetState, initialValue])
+  }, [key, handleSetState])
 
   return [state, handleSetState] as const
 }
